@@ -16,6 +16,8 @@ const Anecdote = (props) => {
   )
 }
 
+const Header = ({ header }) => <h1>{header}</h1>;
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -30,12 +32,17 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
-  console.log(votes)
+  //find the index of anecdote with most votes
+  const mostVotesIndex = votes.indexOf(Math.max(...votes));
+
   return (
     <div>
+      <Header header={"Anecdote of the day"}/>
       <Anecdote text={anecdotes[selected]} votes={votes[selected]}/>
       <Button onClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))} text={"Next anecdote"}/>
       <Button onClick={() => setVotes(votes.with(selected, votes[selected] + 1))} text={"Vote"}/>
+      <Header header={"Anecdote with the most votes"}/>
+      <Anecdote text={anecdotes[mostVotesIndex]} votes={votes[mostVotesIndex]} />
     </div>
   )
 }
