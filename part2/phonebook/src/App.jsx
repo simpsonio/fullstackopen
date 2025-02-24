@@ -12,14 +12,23 @@ const App = () => {
   }
 
   const addName = (event) => {
-    //prevent default action so page doesn't reload
+    //prevent default action, so page doesn't reload
     event.preventDefault()
-    const personObject = {
-      name: newName,
-      id: String(persons.length + 1),
+
+    //check if name already in phonebook
+    if (persons.some(person => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`)
     }
-    //set persons to new object, avoiding direclty altering state
-    setPersons(persons.concat(personObject))
+    //else we can add name
+    else {
+      const personObject = {
+        name: newName,
+        id: String(persons.length + 1),
+      }
+      //set persons to new object, avoiding direclty altering state
+      setPersons(persons.concat(personObject))
+    }
+
     //person has been added, reset input form to blank
     setNewName('')
   }
