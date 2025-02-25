@@ -47,9 +47,13 @@ useEffect(() => {
     else {
       const personObject = {
         name: newName,
-        number: newNumber,
-        id: String(persons.length + 1),
+        number: newNumber
       }
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          console.log(response)
+        })
       //set persons to new object, avoiding direclty altering state
       setPersons(persons.concat(personObject))
     }
