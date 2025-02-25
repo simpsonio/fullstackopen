@@ -14,8 +14,8 @@ const App = () => {
 useEffect(() => {
   personService
     .getAll()
-    .then(response => {
-      setPersons(response.data)
+    .then(initialPersons => {
+      setPersons(initialPersons)
     })
 }, [])
 
@@ -52,9 +52,9 @@ useEffect(() => {
 
       personService
         .create(personObject)
-        .then(response => {
+        .then(returnedPerson => {
           //set persons to new object, avoiding direclty altering state
-          setPersons(persons.concat(response.data))
+          setPersons(persons.concat(returnedPerson))
         })
     }
 
@@ -68,10 +68,10 @@ useEffect(() => {
     if (confirmation) {
       personService
         .remove(person.id)
-        .then(response => {
+        .then(returnedPerson => {
           //remove deleted person
           //storing result in new array first
-          const filtered = persons.filter(person => person.id != response.data.id)
+          const filtered = persons.filter(person => person.id != returnedPerson.id)
           setPersons(filtered)
         })
     }
