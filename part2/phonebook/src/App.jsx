@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
-import noteService from './services/persons'
+import personService from './services/persons'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
@@ -13,7 +12,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
   
 useEffect(() => {
-  noteService
+  personService
     .getAll()
     .then(response => {
       setPersons(response.data)
@@ -51,7 +50,7 @@ useEffect(() => {
         number: newNumber
       }
 
-      noteService
+      personService
         .create(personObject)
         .then(response => {
           //set persons to new object, avoiding direclty altering state
@@ -64,6 +63,20 @@ useEffect(() => {
     setNewNumber('')
   }
 
+  const deletePerson = (person) => {
+    const confirmation = window.confirm(`Delete ${person.name}?`)
+    if (confirmation) {
+      personService
+        .remove(person.id)
+        .then(response => {
+          //remove deleted person
+          //storing result in new array first
+          const filtered = persons.filter(person => person.id != response.data.id)
+          setPersons(filtered)
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -72,7 +85,7 @@ useEffect(() => {
       <PersonForm addName={addName} newName={newName} handleNameChange={handleNameChange}
         newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h3>Numbers</h3>
-      <Persons filteredPersons={filteredPersons}/>
+      <Persons filteredPersons={filteredPersons} deletePerson={deletePerson}/>
     </div>
   )
 }
