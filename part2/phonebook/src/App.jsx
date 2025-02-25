@@ -40,8 +40,22 @@ useEffect(() => {
     event.preventDefault()
 
     //check if name already in phonebook
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+    //assigning to variable so we don't run search twice
+    const existingPerson = persons.filter(person => person.name === newName)
+    if (existingPerson.length > 0) {
+      const confirmation = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      if (confirmation) {
+        const personObject = {
+          name: newName,
+          number: newNumber
+        }
+
+        personService
+          .update(existingPerson[0].id, personObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id === existingPerson[0].id ? returnedPerson : person))
+          })
+      }
     }
     //else we can add name
     else {
