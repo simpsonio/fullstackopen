@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+import noteService from './services/persons'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
@@ -12,8 +13,8 @@ const App = () => {
   const [filter, setFilter] = useState('')
   
 useEffect(() => {
-  axios
-    .get('http://localhost:3001/persons')
+  noteService
+    .getAll()
     .then(response => {
       setPersons(response.data)
     })
@@ -49,13 +50,13 @@ useEffect(() => {
         name: newName,
         number: newNumber
       }
-      axios
-        .post('http://localhost:3001/persons', personObject)
+
+      noteService
+        .create(personObject)
         .then(response => {
-          console.log(response)
+          //set persons to new object, avoiding direclty altering state
+          setPersons(persons.concat(response.data))
         })
-      //set persons to new object, avoiding direclty altering state
-      setPersons(persons.concat(personObject))
     }
 
     //reset input forms to blank
