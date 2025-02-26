@@ -9,20 +9,24 @@ import Error from './components/Error'
 import './index.css'
 
 const App = () => {
-  const [persons, setPersons] = useState([]) 
+  const [persons, setPersons] = useState(null) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   
-useEffect(() => {
-  personService
-    .getAll()
-    .then(initialPersons => {
-      setPersons(initialPersons)
-    })
-}, [])
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
+
+  if (!persons) {
+    return null
+  }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
