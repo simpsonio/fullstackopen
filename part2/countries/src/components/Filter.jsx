@@ -1,9 +1,9 @@
 const Filter = ({filter, handleFilterChange}) => {
-    return (
+    return(
         <form>
             <div>
-                filter shown with
-                <input 
+                find country
+                <input
                     value={filter}
                     onChange={handleFilterChange}
                 />
