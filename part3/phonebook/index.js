@@ -2,7 +2,7 @@ const express = require('express')
 
 const app = express()
 
-let notes = [
+let persons = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -25,7 +25,7 @@ let notes = [
     }
 ]
 
-app.get('/api/notes', (request, response) => {
+app.get('/api/persons', (request, response) => {
     response.json(notes)
 })
 
@@ -38,6 +38,18 @@ app.get('/info', (request, response) => {
         `
         )
     )
+})
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = request.params.id
+    const person = persons.find(person => person.id === id)
+
+    if (person) {
+        response.json(person)
+    } else {
+        response.status(404).end()
+    }
+
 })
 
 const PORT = 3001
