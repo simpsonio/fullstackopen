@@ -1,11 +1,11 @@
-const Countries = ({filter, filteredCountries}) => {
+const Countries = ({filter, filteredCountries, setFilter}) => {
     if (filter.length === 0) return null
 
-    else if(filteredCountries.length > 10) {
+    else if (filteredCountries.length > 10) {
         return <div>Too many matches, specify another filter</div>
     }
 
-    else if(filteredCountries.length === 1) {
+    else if (filteredCountries.length === 1) {
         const country = filteredCountries[0]
         const languages = []
         Object.keys(country.languages).forEach((language) => languages.push(country.languages[language]))
@@ -22,11 +22,17 @@ const Countries = ({filter, filteredCountries}) => {
             </div>
         )
     }
+    
     return (
         <div>
             {
                 filteredCountries.map(country =>
-                    <div key={country.name.common}> {country.name.common}</div>
+                    <div 
+                        key={country.name.common}> {country.name.common}
+                        <button onClick={() => setFilter(country.name.common)}>
+                            select
+                        </button>
+                    </div>
                 )
             }
         </div>
