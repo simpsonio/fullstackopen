@@ -74,6 +74,12 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
+    if (persons.filter(person => person.name.toLowerCase() === body.name.toLowerCase())){
+        return response.status(400).json({
+            error: 'name already in database'
+        })
+    }
+
     const person = {
         id: Math.floor(Math.random() * 9999),
         content: body.name,
