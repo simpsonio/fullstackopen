@@ -26,13 +26,13 @@ let persons = [
 ]
 
 app.get('/api/persons', (request, response) => {
-    response.json(notes)
+    response.json(persons)
 })
 
 app.get('/info', (request, response) => {
     response.send(
         (`
-            <div>Phonebook has info for ${notes.length} people</div>
+            <div>Phonebook has info for ${persons.length} people</div>
             <br>
             <div>${Date().toLocaleString()}</div>
         `
@@ -50,6 +50,13 @@ app.get('/api/persons/:id', (request, response) => {
         response.status(404).end()
     }
 
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = request.params.id
+    persons = persons.filter(person => person.id !== id)
+
+    response.status(204).end()
 })
 
 const PORT = 3001
