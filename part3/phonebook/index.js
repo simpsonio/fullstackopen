@@ -1,7 +1,17 @@
 const express = require('express')
-
 const app = express()
+const morgan = require('morgan')
+
 app.use(express.json())
+
+morgan.token("object", (request) => {
+    return JSON.stringify(request.body);
+  });
+  app.use(
+    morgan(
+      ":method :url :status :res[content-length] - :response-time ms :object"
+    )
+  );
 
 let persons = [
     { 
@@ -74,7 +84,7 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    if (persons.filter(person => person.name.toLowerCase() === body.name.toLowerCase())){
+    if (persons.find((person) => person.name == body.name) ? true : false){
         return response.status(400).json({
             error: 'name already in database'
         })
