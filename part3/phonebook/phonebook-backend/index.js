@@ -26,18 +26,6 @@ app.get('/api/persons', (request, response) => {
     })
 })
 
-//fetch info page
-app.get('/info', (request, response) => {
-    response.send(
-        (`
-            <div>Phonebook has info for ${persons.length} people</div>
-            <br>
-            <div>${Date().toLocaleString()}</div>
-        `
-        )
-    )
-})
-
 //fetch one person
 app.get('/api/persons/:id', (request, response) => {
     Person.findById(request.params.id).then(person => {
@@ -47,10 +35,10 @@ app.get('/api/persons/:id', (request, response) => {
 
 //delete one person
 app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(person => person.id !== id)
-
-    response.status(204).end()
+    Person.findByIdAndDelete(request.params.id)
+        .then(result => {
+            response.status(204).end()
+        })
 })
 
 //add one person
