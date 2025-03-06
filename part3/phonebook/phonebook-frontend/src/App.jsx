@@ -79,8 +79,8 @@ const App = () => {
             setPersons(persons.map(person => person.id === existingPerson[0].id ? returnedPerson : person))
             handleNotificationMessage(`${newName}'s number updated in phonebook`)
           })
-          .catch(response => {
-            handleErrorMessage(response.message)
+          .catch(error => {
+            handleErrorMessage(error.response.data.error)
           })
       }
     }
