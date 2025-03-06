@@ -98,8 +98,8 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           handleNotificationMessage(`${newName} added to phonebook`)
         })
-        .catch(response => {
-          handleErrorMessage(response.message)
+        .catch(error => {
+          handleErrorMessage(error.response.data.error)
         })
     }
 
