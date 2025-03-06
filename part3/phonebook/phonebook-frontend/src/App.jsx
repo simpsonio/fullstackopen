@@ -116,7 +116,10 @@ const App = () => {
         .then(returnedPerson => {
           //remove deleted person
           //storing result in new array first
-          const filtered = persons.filter(person => person.id != returnedPerson.id)
+          const filtered = persons.filter(personCurr => personCurr.id != person.id)
+          console.log('returned peson', person)
+          console.log('persons', persons)
+          console.log('filtered', filtered)
           setPersons(filtered)
         })
         .catch(response => {
